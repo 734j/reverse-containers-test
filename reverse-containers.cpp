@@ -111,6 +111,18 @@ std::string &reverse_string_no_tmp_iterators(std::string &sc) {
 	return sc;
 }
 
+std::list<char> &reverse_list(std::list<char> &lc) {
+
+	auto beg = lc.begin();
+	auto crbeg = lc.crbegin();
+	for(decltype(lc.size()) i = 0 ; i != (lc.size() / 2) ; ++i, ++crbeg) {
+		lc.insert(beg, *crbeg);
+	}
+
+	lc.erase(++beg, lc.cend());
+	return lc;
+}
+
 void print_container(std::string &sc) {
 
 	std::cout << sc << std::endl;
@@ -130,6 +142,16 @@ void print_container(std::vector<char> &vc) {
 	
 	std::cout << std::endl;
 }
+
+void print_container(std::list<char> &lc) {
+
+	for(auto &b : lc) {
+		std::cout << b << " ";
+	}
+	
+	std::cout << std::endl;
+}
+
 
 void print_container(std::deque<char> &dc) {
 
@@ -158,7 +180,8 @@ int main(int argc, char **argv) {
 	int seven = 0;
 	int eight = 0;
 	int nine = 0;
-    while ((opt = getopt(argc, argv, "123456789")) != -1) {
+	int zero = 0;
+    while ((opt = getopt(argc, argv, "1234567890")) != -1) {
         switch (opt) {
         case '1':
 
@@ -205,16 +228,22 @@ int main(int argc, char **argv) {
 			nine = 1;
 
 			break;
+		case '0':
+
+			zero = 1;
+			
+			break;
 		}
 	}
 
-	if((one + two + three + four + five + six + seven + eight + nine) > 1) {
+	if((one + two + three + four + five + six + seven + eight + nine + zero) > 1) {
 		usageOUT();
 		return EXIT_FAILURE;
 	}
 
 	std::string input_str = "abcdef";
 	const char *input_cstr = "abcdef";
+	std::list<char> input_list = {'a', 'b', 'c', 'd', 'e', 'f'};
 	std::vector<char> input_vec = {'a', 'b', 'c', 'd', 'e', 'f'};
 	std::deque<char> input_deq = {'a', 'b', 'c', 'd', 'e', 'f'};
  	if(one == 1) {
@@ -273,5 +302,11 @@ int main(int argc, char **argv) {
 		std::cout << "reverse_string_no_tmp_iterators" << std::endl;
 	}
 
+	if(zero == 1) {
+		reverse_list(input_list);
+		print_container(input_list);
+		std::cout << "reverse_list" << std::endl;
+	}
+	
 	return 0;
 }
