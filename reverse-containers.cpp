@@ -123,6 +123,28 @@ std::list<char> &reverse_list(std::list<char> &lc) {
 	return lc;
 }
 
+std::array<char, CONTAINER_SIZE> &reverse_array(std::array<char, CONTAINER_SIZE> &ac) {
+	// This function is a little weird, not sure if i like it...
+	std::array<char, CONTAINER_SIZE> tmp_ac;
+	auto crbeg = ac.crbegin();
+	auto begin = tmp_ac.begin();
+	for( ; begin != tmp_ac.cend() ; ++crbeg, ++begin) {
+		*begin = *crbeg;
+	}
+
+	ac.swap(tmp_ac);
+	return ac;
+}
+
+void print_container(std::array<char, CONTAINER_SIZE> &ac) {
+
+	for(auto &b : ac) {
+		std::cout << b << " ";
+	}
+	
+	std::cout << std::endl;
+}
+
 void print_container(std::string &sc) {
 
 	std::cout << sc << std::endl;
@@ -181,7 +203,8 @@ int main(int argc, char **argv) {
 	int eight = 0;
 	int nine = 0;
 	int zero = 0;
-    while ((opt = getopt(argc, argv, "1234567890")) != -1) {
+	int a_letter = 0;
+    while ((opt = getopt(argc, argv, "1234567890a")) != -1) {
         switch (opt) {
         case '1':
 
@@ -233,19 +256,25 @@ int main(int argc, char **argv) {
 			zero = 1;
 			
 			break;
+		case 'a':
+
+			a_letter = 1;
+			
+			break;
 		}
 	}
 
-	if((one + two + three + four + five + six + seven + eight + nine + zero) > 1) {
+	if((one + two + three + four + five + six + seven + eight + nine + zero + a_letter) > 1) {
 		usageOUT();
 		return EXIT_FAILURE;
 	}
 
-	std::string input_str = "abcdef";
-	const char *input_cstr = "abcdef";
-	std::list<char> input_list = {'a', 'b', 'c', 'd', 'e', 'f'};
-	std::vector<char> input_vec = {'a', 'b', 'c', 'd', 'e', 'f'};
-	std::deque<char> input_deq = {'a', 'b', 'c', 'd', 'e', 'f'};
+	std::array<char, CONTAINER_SIZE> input_array = {'a', 'b'};
+	std::string input_str = "ab";
+	const char *input_cstr = "ab";
+	std::list<char> input_list = {'a', 'b'};
+	std::vector<char> input_vec = {'a', 'b'};
+	std::deque<char> input_deq = {'a', 'b'};
  	if(one == 1) {
 		reverse_vector_reverse_iterator(input_vec);
 		print_container(input_vec);
@@ -306,6 +335,12 @@ int main(int argc, char **argv) {
 		reverse_list(input_list);
 		print_container(input_list);
 		std::cout << "reverse_list" << std::endl;
+	}
+
+	if(a_letter == 1) {
+		reverse_array(input_array);
+		print_container(input_array);
+		std::cout << "" << std::endl;
 	}
 	
 	return 0;
